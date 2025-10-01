@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختيار التصميم - AI Porto Craft</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            color: #e0e0e0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            font-size: 16px;
+            color: #8b8bff;
+        }
+
+        .logo i {
+            font-size: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #ffffff;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            color: #a0a0a0;
+            font-size: 1.1rem;
+        }
+
+        .steps {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 40px 0;
+        }
+
+        .step {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #2a2a3e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+
+        .step.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 0 30px rgba(102, 126, 234, 0.6);
+        }
+
+        .main-card {
+            background: rgba(30, 30, 45, 0.8);
+            border-radius: 20px;
+            padding: 50px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .brain-icon {
+            font-size: 4rem;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .section-description {
+            color: #a0a0a0;
+            font-size: 1.1rem;
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        textarea {
+            width: 100%;
+            background: rgba(20, 20, 30, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            color: #e0e0e0;
+            font-size: 1rem;
+            line-height: 1.6;
+            resize: vertical;
+            transition: all 0.3s ease;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+        }
+
+        textarea::placeholder {
+            color: #666;
+        }
+
+        .style-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .style-tag {
+            padding: 12px 24px;
+            background: rgba(20, 20, 30, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            color: #e0e0e0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .style-tag:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .style-tag.selected {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: transparent;
+            color: white;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        button {
+            padding: 15px 35px;
+            border-radius: 10px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-cancel {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #a0a0a0;
+        }
+
+        .btn-cancel:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 45px;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(102, 126, 234, 0.3);
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .result-container {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .result-container.show {
+            display: block;
+        }
+
+        .code-result {
+            background: rgba(20, 20, 30, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            color: #e0e0e0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin-bottom: 20px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .btn-copy, .btn-download {
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-copy {
+            background: rgba(102, 126, 234, 0.2);
+            color: #667eea;
+            border: 1px solid rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-copy:hover {
+            background: rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-download {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .main-card {
+                padding: 30px 20px;
+            }
+            
+            .steps {
+                gap: 20px;
+            }
+            
+            .step {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-sparkles"></i>
+                <span>AI Portfolio Generator</span>
+            </div>
+            <h1>اختر تصميمك</h1>
+            <p class="subtitle">أخبر الذكاء الاصطناعي عن التصميم الذي تريده</p>
+        </div>
+
+        <div class="steps">
+            <div class="step">1</div>
+            <div class="step active">2</div>
+          
+        </div>
+
+        <div class="main-card">
+            <div class="section-header">
+                <div class="brain-icon">
+                    <i class="fas fa-palette"></i>
+                </div>
+                <h2 class="section-title">وصف التصميم</h2>
+                <p class="section-description">أخبر الذكاء الاصطناعي عن نوع التصميم الذي تريده</p>
+            </div>
+
+            <div class="form-group">
+                <label>وصف التصميم المطلوب</label>
+                <textarea 
+                    rows="5" 
+                    id="designPrompt"
+                    placeholder="مثال: تصميم حديث وأنيق بألوان داكنة، مناسب لمطور ويب. أريد خطوط نظيفة وتأثيرات خفيفة..."
+                ></textarea>
+            </div>
+
+            <div class="style-tags">
+                <div class="style-tag" onclick="setDesignPrompt('تصميم نظيف ومينيمالي بألوان فاتحة، بسيط وأنيق')">نظيف ومينيمالي</div>
+                <div class="style-tag" onclick="setDesignPrompt('تصميم احترافي بألوان داكنة، مناسب للعمل')">احترافي داكن</div>
+                <div class="style-tag" onclick="setDesignPrompt('تصميم حديث بألوان زرقاء، بسيط وجميل')">حديث وأزرق</div>
+                <div class="style-tag" onclick="setDesignPrompt('تصميم أنيق بألوان رمادية، كلاسيكي ومهني')">أنيق ورمادي</div>
+                <div class="style-tag" onclick="setDesignPrompt('تصميم بسيط بألوان خضراء، طبيعي وهادئ')">بسيط وأخضر</div>
+                <div class="style-tag" onclick="setDesignPrompt('تصميم نظيف بألوان متدرجة لطيفة، جميل وبسيط')">نظيف ومتدرج</div>
+            </div>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>جاري إنشاء وتحسين البورتوفوليو...</p>
+                <small style="color: #a0a0a0; margin-top: 10px; display: block;">
+                    الخطوة 1: إنشاء التصميم الأساسي<br>
+                    الخطوة 2: تحسين التصميم بالذكاء الاصطناعي
+                </small>
+            </div>
+
+            <div class="result-container" id="resultContainer">
+                <h3 style="margin-bottom: 20px; color: #ffffff;">الكود المُولد:</h3>
+                <div class="code-result" id="codeResult"></div>
+                <div class="action-buttons">
+                    <button class="btn-copy" onclick="copyCode()">
+                        <i class="fas fa-copy me-2"></i>نسخ الكود
+                    </button>
+                    <button class="btn-download" onclick="downloadCode()">
+                        <i class="fas fa-download me-2"></i>تنزيل الملف
+                    </button>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn-cancel" onclick="window.location.href='data-collection.html'">العودة</button>
+                <button class="btn-next" onclick="generatePortfolio()">إنشاء البورتوفوليو</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load user data from sessionStorage
+        const userData = JSON.parse(sessionStorage.getItem('portfolioData') || '{}');
+
+        function setDesignPrompt(prompt) {
+            document.getElementById('designPrompt').value = prompt;
+        }
+
+        async function generatePortfolio() {
+            const designPrompt = document.getElementById('designPrompt').value;
+            
+            if (!designPrompt.trim()) {
+                alert('يرجى كتابة وصف التصميم');
+                return;
+            }
+
+            // Show loading
+            document.getElementById('loading').classList.add('show');
+            document.getElementById('resultContainer').classList.remove('show');
+
+            try {
+                // Step 1: Generate initial portfolio with OpenRouter
+                const response = await fetch('/api/generate-portfolio', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        ...userData,
+                        designPrompt
+                    })
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Step 2: Enhance the code with Gemini
+                    const enhanceResponse = await fetch('/api/enhance-portfolio', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            html: result.html,
+                            designPrompt: designPrompt
+                        })
+                    });
+
+                    const enhanceResult = await enhanceResponse.json();
+                    
+                    if (enhanceResult.success) {
+                        // Hide loading
+                        document.getElementById('loading').classList.remove('show');
+                        
+                        // Show enhanced result
+                        document.getElementById('codeResult').textContent = enhanceResult.html;
+                        document.getElementById('resultContainer').classList.add('show');
+                    } else {
+                        // If enhancement fails, show original result
+                        document.getElementById('loading').classList.remove('show');
+                        document.getElementById('codeResult').textContent = result.html;
+                        document.getElementById('resultContainer').classList.add('show');
+                        console.log('Enhancement failed, showing original result');
+                    }
+                } else {
+                    alert('حدث خطأ: ' + result.error);
+                    document.getElementById('loading').classList.remove('show');
+                }
+            } catch (error) {
+                alert('حدث خطأ في الاتصال: ' + error.message);
+                document.getElementById('loading').classList.remove('show');
+            }
+        }
+
+        function copyCode() {
+            const code = document.getElementById('codeResult').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                alert('تم نسخ الكود بنجاح!');
+            });
+        }
+
+        function downloadCode() {
+            const code = document.getElementById('codeResult').textContent;
+            const blob = new Blob([code], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'portfolio.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

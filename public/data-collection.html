@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جمع البيانات - AI Porto Craft</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            color: #e0e0e0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            font-size: 16px;
+            color: #8b8bff;
+        }
+
+        .logo i {
+            font-size: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #ffffff;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            color: #a0a0a0;
+            font-size: 1.1rem;
+        }
+
+        .steps {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 40px 0;
+        }
+
+        .step {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #2a2a3e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+
+        .step.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 0 30px rgba(102, 126, 234, 0.6);
+        }
+
+        .main-card {
+            background: rgba(30, 30, 45, 0.8);
+            border-radius: 20px;
+            padding: 50px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .brain-icon {
+            font-size: 4rem;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .section-description {
+            color: #a0a0a0;
+            font-size: 1.1rem;
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        textarea {
+            width: 100%;
+            background: rgba(20, 20, 30, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            color: #e0e0e0;
+            font-size: 1rem;
+            line-height: 1.6;
+            resize: vertical;
+            transition: all 0.3s ease;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+        }
+
+        textarea::placeholder {
+            color: #666;
+        }
+
+        .style-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .style-tag {
+            padding: 12px 24px;
+            background: rgba(20, 20, 30, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            color: #e0e0e0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .style-tag:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .style-tag.selected {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: transparent;
+            color: white;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        button {
+            padding: 15px 35px;
+            border-radius: 10px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-cancel {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #a0a0a0;
+        }
+
+        .btn-cancel:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 45px;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            background: rgba(20, 20, 30, 0.5);
+            padding: 8px;
+            border-radius: 12px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px 20px;
+            background: transparent;
+            border: none;
+            color: #a0a0a0;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .tab.active {
+            background: rgba(102, 126, 234, 0.3);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .input-field {
+            width: 100%;
+            background: rgba(20, 20, 30, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            color: #e0e0e0;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .skill-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .skill-item {
+            padding: 10px 15px;
+            background: rgba(20, 20, 30, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .skill-item:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.2);
+        }
+
+        .skill-item.selected {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: transparent;
+        }
+
+        .btn-extract {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            width: 100%;
+        }
+
+        .btn-extract:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .extracted-data {
+            background: rgba(20, 20, 30, 0.5);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .extracted-fields {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .field-row {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .field-row label {
+            font-size: 0.9rem;
+            color: #a0a0a0;
+            margin-bottom: 5px;
+        }
+
+        .btn-use-data {
+            background: rgba(102, 126, 234, 0.2);
+            color: #667eea;
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-use-data:hover {
+            background: rgba(102, 126, 234, 0.3);
+        }
+
+        .loading-extract {
+            text-align: center;
+            padding: 20px;
+            background: rgba(20, 20, 30, 0.5);
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .spinner {
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(102, 126, 234, 0.3);
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .skills-input-container {
+            margin-bottom: 15px;
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .skill-tag {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .skill-tag .remove {
+            cursor: pointer;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        .projects-list {
+            margin-bottom: 15px;
+        }
+
+        .project-item {
+            background: rgba(20, 20, 30, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .project-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .btn-remove-project, .btn-remove-link {
+            background: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-add-project, .btn-add-link {
+            background: rgba(102, 126, 234, 0.2);
+            color: #667eea;
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-add-project:hover, .btn-add-link:hover {
+            background: rgba(102, 126, 234, 0.3);
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            background: rgba(20, 20, 30, 0.5);
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .project-image-preview img {
+            border: 1px solid #667eea;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .main-card {
+                padding: 30px 20px;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .steps {
+                gap: 20px;
+            }
+            
+            .step {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-sparkles"></i>
+                <span>AI Portfolio Generator</span>
+            </div>
+            <h1>أنشئ بورتوفوليوك الذكي</h1>
+            <p class="subtitle">اتبع الخطوات أدناه لإنشاء بورتوفوليو فريد من نوعه</p>
+        </div>
+
+        <div class="steps">
+            <div class="step active">1</div>
+            <div class="step">2</div>
+            
+        </div>
+
+        <div class="main-card">
+            <div class="section-header">
+                <div class="brain-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h2 class="section-title">أدخل بياناتك</h2>
+                <p class="section-description">أخبر الذكاء الاصطناعي عن نفسك ومهاراتك</p>
+            </div>
+
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('manual')">
+                    <i class="fas fa-edit me-2"></i> إدخال يدوي
+                </button>
+                <button class="tab" onclick="switchTab('auto')">
+                    <i class="fas fa-magic me-2"></i> إدخال تلقائي
+                </button>
+            </div>
+
+            <!-- Manual Input Tab -->
+            <div class="tab-content active" id="manual-content">
+                <div class="grid">
+                    <div class="form-group">
+                        <label><i class="fas fa-user me-2"></i>الاسم الكامل</label>
+                        <input type="text" class="input-field" id="name" placeholder="أحمد محمد خالد">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-briefcase me-2"></i>المهنة</label>
+                        <input type="text" class="input-field" id="profession" placeholder="مطور ويب">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-info-circle me-2"></i>نبذة شخصية</label>
+                    <textarea rows="4" id="bio" placeholder="أخبرنا عن نفسك، خبراتك، وأهدافك..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-cogs me-2"></i>المهارات</label>
+                    <div class="skills-input-container">
+                        <input type="text" class="input-field" id="skillInput" placeholder="اكتب مهارة واضغط Enter" onkeypress="addSkillOnEnter(event)">
+                        <div id="skillsList" class="skills-list"></div>
+                    </div>
+                    <div class="skill-grid">
+                        <div class="skill-item" onclick="toggleSkill(this)">HTML</div>
+                        <div class="skill-item" onclick="toggleSkill(this)">CSS</div>
+                        <div class="skill-item" onclick="toggleSkill(this)">JavaScript</div>
+                        <div class="skill-item" onclick="toggleSkill(this)">React</div>
+                        <div class="skill-item" onclick="toggleSkill(this)">Node.js</div>
+                        <div class="skill-item" onclick="toggleSkill(this)">Python</div>
+                        <div class="skill-item" onclick="toggleSkill(this)">PHP</div>
+                        <div class="skill-item" onclick="toggleSkill(this)">MySQL</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-project-diagram me-2"></i>المشاريع</label>
+                    <div id="projectsList" class="projects-list">
+                        <div class="project-item">
+                            <div class="project-header">
+                                <input type="text" class="input-field" placeholder="اسم المشروع" style="width: 45%; margin-right: 10px;">
+                                <input type="url" class="input-field" placeholder="رابط المشروع" style="width: 45%;">
+                                <button type="button" class="btn-remove-project" onclick="removeProject(this)">×</button>
+                            </div>
+                            <textarea class="input-field" placeholder="وصف المشروع" rows="2" style="margin-top: 10px;"></textarea>
+                            <div class="project-image-upload">
+                                <input type="url" class="input-field" placeholder="رابط صورة المشروع (اختياري)" onchange="previewProjectImageFromUrl(this)" style="width: 100%;">
+                                <div class="project-image-preview" style="display: none; margin-top: 10px;">
+                                    <img style="width: 100px; height: 60px; object-fit: cover; border-radius: 8px; border: 1px solid #667eea;">
+                                </div>
+                                <small style="color: #a0a0a0; font-size: 0.8rem;">أو اتركه فارغاً لاستخدام صورة افتراضية</small>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-add-project" onclick="addProject()">
+                        <i class="fas fa-plus me-2"></i>إضافة مشروع
+                    </button>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-image me-2"></i>الصورة الشخصية</label>
+                    <input type="url" class="input-field" id="profileImageUrl" placeholder="https://example.com/your-photo.jpg" onchange="previewImageFromUrl(this)">
+                    <div id="imagePreview" style="margin-top: 10px; display: none;">
+                        <img id="previewImg" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 2px solid #667eea;">
+                    </div>
+                    <small style="color: #a0a0a0; font-size: 0.9rem;">أو اتركه فارغاً لاستخدام صورة افتراضية</small>
+                </div>
+
+                <div class="grid">
+                    <div class="form-group">
+                        <label><i class="fas fa-envelope me-2"></i>البريد الإلكتروني</label>
+                        <input type="email" class="input-field" id="email" placeholder="ahmed@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-phone me-2"></i>رقم الهاتف</label>
+                        <input type="tel" class="input-field" id="phone" placeholder="+201234567890">
+                    </div>
+                </div>
+
+                <div class="grid">
+                    <div class="form-group">
+                        <label><i class="fab fa-github me-2"></i>GitHub</label>
+                        <input type="url" class="input-field" id="github" placeholder="https://github.com/username">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fab fa-linkedin me-2"></i>LinkedIn</label>
+                        <input type="url" class="input-field" id="linkedin" placeholder="https://linkedin.com/in/username">
+                    </div>
+                </div>
+
+                <div class="grid">
+                    <div class="form-group">
+                        <label><i class="fab fa-twitter me-2"></i>Twitter</label>
+                        <input type="url" class="input-field" id="twitter" placeholder="https://twitter.com/username">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fab fa-instagram me-2"></i>Instagram</label>
+                        <input type="url" class="input-field" id="instagram" placeholder="https://instagram.com/username">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-link me-2"></i>روابط إضافية</label>
+                    <div id="additionalLinks">
+                        <div class="link-item">
+                            <input type="text" class="input-field" placeholder="اسم الموقع" style="width: 30%; margin-right: 10px;">
+                            <input type="url" class="input-field" placeholder="الرابط" style="width: 60%;">
+                            <button type="button" class="btn-remove-link" onclick="removeLink(this)">×</button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-add-link" onclick="addLink()">
+                        <i class="fas fa-plus me-2"></i>إضافة رابط
+                    </button>
+                </div>
+            </div>
+
+            <!-- Auto Input Tab -->
+            <div class="tab-content" id="auto-content">
+                <div class="form-group">
+                    <label><i class="fas fa-robot me-2"></i>اكتب معلوماتك في فقرة واحدة</label>
+                    <textarea 
+                        rows="8" 
+                        id="autoInput"
+                        placeholder="مثال: أنا أحمد خالد، مطور ويب بخبرة 5 سنوات، أتقن React و Node.js و Python، لدي مشاريع في تطوير تطبيقات الويب..."
+                    ></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn-extract" onclick="extractDataFromPrompt()">
+                        <i class="fas fa-magic me-2"></i>استخراج البيانات تلقائياً
+                    </button>
+                </div>
+
+                <div class="extracted-data" id="extractedData" style="display: none;">
+                    <h4 style="color: #667eea; margin-bottom: 20px;">
+                        <i class="fas fa-check-circle me-2"></i>البيانات المستخرجة:
+                    </h4>
+                    <div class="extracted-fields">
+                        <div class="field-row">
+                            <label>الاسم:</label>
+                            <input type="text" class="input-field" id="extractedName" readonly>
+                        </div>
+                        <div class="field-row">
+                            <label>المهنة:</label>
+                            <input type="text" class="input-field" id="extractedProfession" readonly>
+                        </div>
+                        <div class="field-row">
+                            <label>النبذة:</label>
+                            <textarea class="input-field" id="extractedBio" rows="3" readonly></textarea>
+                        </div>
+                        <div class="field-row">
+                            <label>المهارات:</label>
+                            <input type="text" class="input-field" id="extractedSkills" readonly>
+                        </div>
+                        <div class="field-row">
+                            <label>البريد الإلكتروني:</label>
+                            <input type="text" class="input-field" id="extractedEmail" readonly>
+                        </div>
+                        <div class="field-row">
+                            <label>GitHub:</label>
+                            <input type="text" class="input-field" id="extractedGithub" readonly>
+                        </div>
+                    </div>
+                    <button class="btn-use-data" onclick="useExtractedData()">
+                        <i class="fas fa-arrow-right me-2"></i>استخدام هذه البيانات
+                    </button>
+                </div>
+
+                <div class="loading-extract" id="loadingExtract" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>جاري استخراج البيانات...</p>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn-cancel" onclick="window.location.href='index.html'">إلغاء</button>
+                <button class="btn-next" onclick="generatePortfolio()">الخطوة التالية</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            event.target.closest('.tab').classList.add('active');
+            document.getElementById(tab + '-content').classList.add('active');
+        }
+
+        function toggleSkill(element) {
+            element.classList.toggle('selected');
+        }
+
+        function addSkillOnEnter(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                addSkill();
+            }
+        }
+
+        function addSkill() {
+            const skillInput = document.getElementById('skillInput');
+            const skill = skillInput.value.trim();
+            
+            if (skill && !document.querySelector(`[data-skill="${skill}"]`)) {
+                const skillsList = document.getElementById('skillsList');
+                const skillTag = document.createElement('div');
+                skillTag.className = 'skill-tag';
+                skillTag.setAttribute('data-skill', skill);
+                skillTag.innerHTML = `${skill} <span class="remove" onclick="removeSkill(this)">×</span>`;
+                skillsList.appendChild(skillTag);
+                skillInput.value = '';
+            }
+        }
+
+        function removeSkill(element) {
+            element.parentElement.remove();
+        }
+
+        function addProject() {
+            const projectsList = document.getElementById('projectsList');
+            const projectItem = document.createElement('div');
+            projectItem.className = 'project-item';
+            projectItem.innerHTML = `
+                <div class="project-header">
+                    <input type="text" class="input-field" placeholder="اسم المشروع" style="width: 45%; margin-right: 10px;">
+                    <input type="url" class="input-field" placeholder="رابط المشروع" style="width: 45%;">
+                    <button type="button" class="btn-remove-project" onclick="removeProject(this)">×</button>
+                </div>
+                <textarea class="input-field" placeholder="وصف المشروع" rows="2" style="margin-top: 10px;"></textarea>
+                <div class="project-image-upload">
+                    <input type="url" class="input-field" placeholder="رابط صورة المشروع (اختياري)" onchange="previewProjectImageFromUrl(this)" style="width: 100%;">
+                    <div class="project-image-preview" style="display: none; margin-top: 10px;">
+                        <img style="width: 100px; height: 60px; object-fit: cover; border-radius: 8px; border: 1px solid #667eea;">
+                    </div>
+                    <small style="color: #a0a0a0; font-size: 0.8rem;">أو اتركه فارغاً لاستخدام صورة افتراضية</small>
+                </div>
+            `;
+            projectsList.appendChild(projectItem);
+        }
+
+        function removeProject(element) {
+            element.closest('.project-item').remove();
+        }
+
+        function previewProjectImageFromUrl(input) {
+            const preview = input.parentElement.querySelector('.project-image-preview');
+            const img = preview.querySelector('img');
+            
+            if (input.value.trim()) {
+                img.src = input.value;
+                img.onerror = function() {
+                    preview.style.display = 'none';
+                    alert('لا يمكن تحميل الصورة من هذا الرابط');
+                };
+                img.onload = function() {
+                    preview.style.display = 'block';
+                };
+            } else {
+                preview.style.display = 'none';
+            }
+        }
+
+        function addLink() {
+            const additionalLinks = document.getElementById('additionalLinks');
+            const linkItem = document.createElement('div');
+            linkItem.className = 'link-item';
+            linkItem.innerHTML = `
+                <input type="text" class="input-field" placeholder="اسم الموقع" style="width: 30%; margin-right: 10px;">
+                <input type="url" class="input-field" placeholder="الرابط" style="width: 60%;">
+                <button type="button" class="btn-remove-link" onclick="removeLink(this)">×</button>
+            `;
+            additionalLinks.appendChild(linkItem);
+        }
+
+        function removeLink(element) {
+            element.closest('.link-item').remove();
+        }
+
+        function previewImageFromUrl(input) {
+            const preview = document.getElementById('imagePreview');
+            const img = document.getElementById('previewImg');
+            
+            if (input.value.trim()) {
+                img.src = input.value;
+                img.onerror = function() {
+                    preview.style.display = 'none';
+                    alert('لا يمكن تحميل الصورة من هذا الرابط');
+                };
+                img.onload = function() {
+                    preview.style.display = 'block';
+                };
+            } else {
+                preview.style.display = 'none';
+            }
+        }
+
+        function collectFormData() {
+            const formData = {
+                name: document.getElementById('name').value,
+                profession: document.getElementById('profession').value,
+                bio: document.getElementById('bio').value,
+                skills: [
+                    ...Array.from(document.querySelectorAll('.skill-item.selected')).map(el => el.textContent),
+                    ...Array.from(document.querySelectorAll('.skill-tag')).map(el => el.getAttribute('data-skill'))
+                ].filter(skill => skill),
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                github: document.getElementById('github').value,
+                linkedin: document.getElementById('linkedin').value,
+                twitter: document.getElementById('twitter').value,
+                instagram: document.getElementById('instagram').value,
+                profileImageUrl: document.getElementById('profileImageUrl').value,
+                projects: Array.from(document.querySelectorAll('.project-item')).map(project => ({
+                    name: project.querySelector('input[placeholder="اسم المشروع"]').value,
+                    url: project.querySelector('input[placeholder="رابط المشروع"]').value,
+                    description: project.querySelector('textarea').value,
+                    imageUrl: project.querySelector('input[placeholder="رابط صورة المشروع (اختياري)"]').value
+                })).filter(project => project.name),
+                additionalLinks: Array.from(document.querySelectorAll('.link-item')).map(link => ({
+                    name: link.querySelector('input[placeholder="اسم الموقع"]').value,
+                    url: link.querySelector('input[placeholder="الرابط"]').value
+                })).filter(link => link.name && link.url),
+                autoInput: document.getElementById('autoInput').value
+            };
+            return formData;
+        }
+
+        async function extractDataFromPrompt() {
+            const prompt = document.getElementById('autoInput').value;
+            
+            if (!prompt.trim()) {
+                alert('يرجى كتابة وصف عن نفسك أولاً');
+                return;
+            }
+
+            // Show loading
+            document.getElementById('loadingExtract').style.display = 'block';
+            document.getElementById('extractedData').style.display = 'none';
+
+            try {
+                const response = await fetch('/api/extract-data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ prompt })
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Hide loading
+                    document.getElementById('loadingExtract').style.display = 'none';
+                    
+                    // Fill extracted data
+                    document.getElementById('extractedName').value = result.data.name || '';
+                    document.getElementById('extractedProfession').value = result.data.profession || '';
+                    document.getElementById('extractedBio').value = result.data.bio || '';
+                    document.getElementById('extractedSkills').value = result.data.skills ? result.data.skills.join(', ') : '';
+                    document.getElementById('extractedEmail').value = result.data.email || '';
+                    document.getElementById('extractedGithub').value = result.data.github || '';
+                    
+                    // Show extracted data
+                    document.getElementById('extractedData').style.display = 'block';
+                } else {
+                    alert('حدث خطأ في استخراج البيانات: ' + result.error);
+                    document.getElementById('loadingExtract').style.display = 'none';
+                }
+            } catch (error) {
+                alert('حدث خطأ في الاتصال: ' + error.message);
+                document.getElementById('loadingExtract').style.display = 'none';
+            }
+        }
+
+        function useExtractedData() {
+            // Fill manual form with extracted data
+            document.getElementById('name').value = document.getElementById('extractedName').value;
+            document.getElementById('profession').value = document.getElementById('extractedProfession').value;
+            document.getElementById('bio').value = document.getElementById('extractedBio').value;
+            document.getElementById('email').value = document.getElementById('extractedEmail').value;
+            document.getElementById('github').value = document.getElementById('extractedGithub').value;
+            
+            // Clear selected skills first
+            document.querySelectorAll('.skill-item.selected').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // Clear existing skill tags
+            document.getElementById('skillsList').innerHTML = '';
+            
+            // Select skills from extracted data
+            const skills = document.getElementById('extractedSkills').value.split(',').map(s => s.trim());
+            document.querySelectorAll('.skill-item').forEach(item => {
+                if (skills.includes(item.textContent)) {
+                    item.classList.add('selected');
+                }
+            });
+            
+            // Add custom skills as tags
+            skills.forEach(skill => {
+                if (skill && !document.querySelector(`[data-skill="${skill}"]`)) {
+                    const skillsList = document.getElementById('skillsList');
+                    const skillTag = document.createElement('div');
+                    skillTag.className = 'skill-tag';
+                    skillTag.setAttribute('data-skill', skill);
+                    skillTag.innerHTML = `${skill} <span class="remove" onclick="removeSkill(this)">×</span>`;
+                    skillsList.appendChild(skillTag);
+                }
+            });
+            
+            // Switch to manual tab
+            switchTab('manual');
+            
+            alert('تم نقل البيانات إلى النموذج اليدوي بنجاح!');
+        }
+
+        async function generatePortfolio() {
+            const formData = collectFormData();
+            
+            if (!formData.name || !formData.profession) {
+                alert('يرجى ملء الاسم والمهنة على الأقل');
+                return;
+            }
+
+            // Store data in sessionStorage
+            sessionStorage.setItem('portfolioData', JSON.stringify(formData));
+            
+            // Redirect to design selection page
+            window.location.href = 'design-selection.html';
+        }
+    </script>
+</body>
+</html>
