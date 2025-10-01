@@ -13,7 +13,7 @@ module.exports = async (req, res) => {
     // Call OpenRouter API
     const openRouterApiKey = process.env.OPENROUTER_API_KEY;
     const openRouterUrl = 'https://openrouter.ai/api/v1/chat/completions';
-    const prompt = `Generate a complete responsive portfolio website in HTML/CSS/JS using the following data: ${JSON.stringify(data)}`;
+  const prompt = `Generate a complete modern portfolio website in HTML, CSS, and JS using the following data: ${JSON.stringify(data)}. The design must be fully responsive and look great on all device sizes (mobile, tablet, desktop). For the contact section, do NOT use a form; instead, provide direct contact links (buttons or icons) to the user's social media and contact info from the data. Use a clean, professional, and visually appealing layout.`;
     const payload = {
       model: 'nvidia/nemotron-nano-9b-v2:free',
       messages: [{ role: 'user', content: prompt }]
